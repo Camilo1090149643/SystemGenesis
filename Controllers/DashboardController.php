@@ -9,4 +9,8 @@ class DashboardController{
         $productosMasVendidos = Dashboard::mdlProductosMasVendidos();
         return $productosMasVendidos;
     }
+    static public function crtProductosPocoStock(){
+        $productosPocoStock = Dashboard::mdlProductosPocoStock();
+        return $productosPocoStock;
+    }
 }

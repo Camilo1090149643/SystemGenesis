@@ -13,6 +13,11 @@ class Dashboard{
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
+    static public function mdlProductosPocoStock(){
+        $stmt = Connection::conectar()->prepare('call prc_ListarProductosPocoStock');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_OBJ);
+    }
 
 
 } 

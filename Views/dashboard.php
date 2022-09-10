@@ -140,6 +140,9 @@
                         <th>Stock Actual</th>
                         <th>Min Stock registrdo</th>
                       </tr>
+                      <tbody>
+
+                      </tbody>
                     </thead>
                   </table>
                 </div>
@@ -188,6 +191,29 @@
                       '<td> Q. '+ respuesta[i]['total_venta'] +'</td>'+
                  '</tr>' 
             $("#tbl_productos_mas_vendidos tbody").append(filas);
+          }
+          
+        }
+      });
+      /********FUNCION PARA LISTADOS de productos con bajo Stock **********/
+      $.ajax({
+        url: "ajax/dashboard.ajax.php",
+        type: "POST",
+        data: {
+          'accion': 2 //listar los productos con bajo stock
+        },
+        dataType: 'json',
+        success:function(respuesta){
+          console.log("respuesta",respuesta);
+          
+          for (let i = 0; i < respuesta.length; i++) {
+            filas = '<tr>'+
+                      '<td>'+ respuesta[i]['barcode'] +'</td>'+
+                      '<td>'+ respuesta[i]['name'] +'</td>'+
+                      '<td>'+ respuesta[i]['stock'] +'</td>'+
+                      '<td>'+ respuesta[i]['alert'] +'</td>'+
+                 '</tr>' 
+            $("#tbl_productos_poco_stock tbody").append(filas);
           }
           
         }
