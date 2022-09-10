@@ -9,7 +9,7 @@ class Dashboard{
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
     static public function mdlProductosMasVendidos(){
-        $stmt = Connection::conectar()->prepare('call prc_ListarProductosMasVendidos()');
+        $stmt = Connection::conectar()->prepare('call prc_ListarProductosMasVendidos');
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }

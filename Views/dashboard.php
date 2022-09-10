@@ -106,8 +106,11 @@
                         <th>Cod. Producto</th>
                         <th>Producto</th>
                         <th>Cantidad</th>
-                        <th>Ventas</th>
+                        <th>Total</th>
                       </tr>
+                      <tbody>
+
+                      </tbody>
                     </thead>
                   </table>
                 </div>
@@ -166,17 +169,32 @@
             $("#totalVentasDia").html('Q. ' + respuesta[0]['ventasdeldia']);
           }
         });
-      });
-      /********FUNCION PARA LISTADOS de productos mas vendidos **********/
-      $.$.ajax({
+        /********FUNCION PARA LISTADOS de productos mas vendidos **********/
+        $.ajax({
         url: "ajax/dashboard.ajax.php",
-        type: "POST"
+        type: "POST",
         data: {
-          'accion':2 
+          'accion': 1 
         },
-        success: function(respuesta){
-          console.log("respuesta",respuesta);          
+        dataType: 'json',
+        success:function(respuesta){
+          console.log("respuesta",respuesta);
+          
+          for (let i = 0; i < respuesta.length; i++) {
+            filas = '<tr>'+
+                      '<td>'+ respuesta[i]['barcode'] +'</td>'+
+                      '<td>'+ respuesta[i]['name'] +'</td>'+
+                      '<td>'+ respuesta[i]['cantidad'] +'</td>'+
+                      '<td> Q. '+ respuesta[i]['total_venta'] +'</td>'+
+                 '</tr>' 
+            $("#tbl_productos_mas_vendidos tbody").append(filas);
+          }
+          
         }
       });
+
+      });
+      
+      
 
     </script>

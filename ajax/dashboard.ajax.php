@@ -14,6 +14,8 @@ class AjaxDashboard{
     }
 }
 
+    
+
 if(isset($_POST['accion']) && $_POST['accion'] == 1){ //ejecutar funcion de productos mas vendidos
     $productosMasVendidos = new AjaxDashboard();
     $productosMasVendidos-> getProductosMasVendidos();
