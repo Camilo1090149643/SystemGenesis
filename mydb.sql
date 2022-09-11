@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-09-2022 a las 05:49:09
+-- Tiempo de generación: 11-09-2022 a las 00:37:31
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -25,16 +25,22 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `prc_ListaProductosMasVendidos` ()   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prc_ListarProductosMasVendidos` ()   BEGIN
 SELECT p.barcode,
 		p.name,
         SUM(sd.quantity) as cantidad,
-        SUM(Round(sd.price,2)) as total_venta
+        SUM(Round(sd.price_sale,2)) as total_venta
 FROM sale_details sd INNER JOIN products p ON sd.id = p.id
 GROUP BY p.barcode,
 		p.name
-ORDER BY SUM(Round(sd.price,2)) DESC
+ORDER BY SUM(Round(sd.price_sale,2)) DESC
 LIMIT 10;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `prc_ListarProductosPocoStock` ()   BEGIN
+
+SELECT p.barcode, p.name, p.stock, p.alert FROM products p WHERE p.stock <= p.alert ORDER BY p.stock ASC;
 
 END$$
 
@@ -46,7 +52,7 @@ DECLARE ventasdeldia float;
 
 SET totalproductos = (SELECT count(*) FROM products p);
 SET totalventas = (SELECT SUM(s.total) FROM sales s);
-SET totalganancias = (SELECT SUM(sd.price) - SUM(p.costl*sd.quantity) FROM sale_details sd INNER JOIN products p ON sd.product_id= p.id);
+SET totalganancias = (SELECT SUM(sd.price_sale) - SUM(p.costl*sd.quantity) FROM sale_details sd INNER JOIN products p ON sd.product_id= p.id);
 SET ventasdeldia = (SELECT SUM(s.total) FROM sales s);
 
 SELECT IFNULL(totalproductos,0) AS totalProductos,
@@ -112,7 +118,7 @@ CREATE TABLE `products` (
   `costl` decimal(10,0) NOT NULL,
   `price` decimal(10,0) NOT NULL,
   `stock` int(11) NOT NULL,
-  `alets` int(11) NOT NULL,
+  `alert` int(11) NOT NULL,
   `image` varchar(55) DEFAULT NULL,
   `category_id` int(11) NOT NULL,
   `providers_id` int(11) NOT NULL
@@ -122,9 +128,9 @@ CREATE TABLE `products` (
 -- Volcado de datos para la tabla `products`
 --
 
-INSERT INTO `products` (`id`, `name`, `barcode`, `costl`, `price`, `stock`, `alets`, `image`, `category_id`, `providers_id`) VALUES
-(1, 'Bombilla Led 10W', '08-09-01', '15', '25', 10, 3, NULL, 1, 1),
-(2, 'Apagador Simple Bticino', '01/04/03', '18', '28', 24, 6, NULL, 1, 1);
+INSERT INTO `products` (`id`, `name`, `barcode`, `costl`, `price`, `stock`, `alert`, `image`, `category_id`, `providers_id`) VALUES
+(1, 'Bombilla Led 10W', '08-09-01', '15', '25', 10, 20, NULL, 1, 1),
+(2, 'Apagador Simple Bticino', '01/04/03', '18', '28', 24, 24, NULL, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -176,7 +182,7 @@ CREATE TABLE `sales` (
   `total` varchar(45) NOT NULL,
   `items` int(11) NOT NULL,
   `cash` decimal(10,0) NOT NULL,
-  `change` varchar(45) DEFAULT NULL,
+  `date_sale` date DEFAULT NULL,
   `status` enum('PAID','PENDING','CANCELED') DEFAULT 'PAID',
   `user_id` int(11) NOT NULL,
   `Clients_id` int(11) NOT NULL
@@ -186,7 +192,7 @@ CREATE TABLE `sales` (
 -- Volcado de datos para la tabla `sales`
 --
 
-INSERT INTO `sales` (`id`, `total`, `items`, `cash`, `change`, `status`, `user_id`, `Clients_id`) VALUES
+INSERT INTO `sales` (`id`, `total`, `items`, `cash`, `date_sale`, `status`, `user_id`, `Clients_id`) VALUES
 (1, '12500', 5, '0', NULL, 'PAID', 1, 1);
 
 -- --------------------------------------------------------
@@ -199,7 +205,7 @@ CREATE TABLE `sale_details` (
   `id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `cost` decimal(10,0) NOT NULL,
-  `price` decimal(10,0) NOT NULL,
+  `price_sale` decimal(10,0) NOT NULL,
   `sale_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -208,8 +214,9 @@ CREATE TABLE `sale_details` (
 -- Volcado de datos para la tabla `sale_details`
 --
 
-INSERT INTO `sale_details` (`id`, `quantity`, `cost`, `price`, `sale_id`, `product_id`) VALUES
-(1, 2, '15', '25', 1, 1);
+INSERT INTO `sale_details` (`id`, `quantity`, `cost`, `price_sale`, `sale_id`, `product_id`) VALUES
+(1, 2, '15', '50', 1, 1),
+(2, 4, '18', '100', 1, 2);
 
 -- --------------------------------------------------------
 

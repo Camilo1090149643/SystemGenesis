@@ -23,7 +23,7 @@
         <!-- Creamos una fila -->
         <div class="row" >
           
-          <div class="col-lg-2">
+          <div class="col-md-3">
               <!-- small box -->
             <div class="small-box bg-primary">
               <div class="inner">
@@ -37,7 +37,7 @@
             </div>
           </div>
              <!-- TARJETA DE TOTAL DE VENTAS MES -->
-          <div class="col-lg-2">
+          <div class="col-md-3">
               <!-- small box -->
             <div class="small-box bg-success">
               <div class="inner">
@@ -51,7 +51,7 @@
             </div>
           </div>
           <!-- TARJETA DE TOTAL DE GANANCIAS -->
-          <div class="col-lg-2">
+          <div class="col-md-3">
               <!-- small box -->
             <div class="small-box bg-danger">
               <div class="inner">
@@ -66,7 +66,7 @@
           </div>
 
            <!-- TARJETA DE TOTAL DE VENTAS DEL DIA -->
-           <div class="col-lg-2">
+           <div class="col-md-3">
               <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
@@ -85,7 +85,7 @@
         
         <!-- Lista de Productos mas vendidos -->
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-md-6">
             <div class="card card-info">
               <div class="card-header">
                 <h3 class="card-title">Los 10 Productos mas Vendidos</h3>
@@ -168,7 +168,7 @@
             
             $("#totalProductos").html(respuesta[0]['totalProductos']);
             $("#totalVentas").html('Q. ' + respuesta[0]['totalventas']);
-            $("#totalGanancias").html(respuesta[0]['totalganancias']);
+            $("#totalGanancias").html('Q. ' + respuesta[0]['totalganancias']);
             $("#totalVentasDia").html('Q. ' + respuesta[0]['ventasdeldia']);
           }
         });
