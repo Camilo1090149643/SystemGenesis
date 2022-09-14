@@ -102,19 +102,19 @@
               contentType: false,
               processData: false,
               success: function(respuesta){
-                console.log("respuesta",respuesta);
+                console.log("respuesta de categorias", respuesta);
 
-                if(respuesta>0){
+                if(respuesta > 0){
                   Swal.fire({
                     position:'center',
                     icon:'success',
-                    title: 'Se registraron '+ respuesta + 'categorias Correctamente',
+                    title: 'Se registraron '+ respuesta + ' Categorias Correctamente',
                     showConfirmButton:false,
                     timer: 2500,
 
                 })
-                $("#btnCArgar").prop("disabled",false);
-                $("#img_carga").attr("style","display:none");
+                $("#btnCargar").prop("disabled",false);
+                $("#img_cargar").attr("style","display:none");
                 }
               }
             });
