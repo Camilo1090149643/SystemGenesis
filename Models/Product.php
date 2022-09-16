@@ -38,5 +38,11 @@ class Product{
 
     }
 
+    static public function mdlListarProductos(){
+        $stmt = Connection::conectar()->prepare('call prc_ListarProductos');
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+    }
 
 }

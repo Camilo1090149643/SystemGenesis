@@ -1,3 +1,4 @@
+
    <!-- Content Header (Page header) -->
    <div class="content-header">
       <div class="container-fluid">
@@ -67,8 +68,63 @@
     <Script>
       $(document).ready(function(){
         var table;
+        document.title = 'Genesis | Inventario de Productos';
+        $.ajax({
+          url: "ajax/product.ajax.php",
+          type: "POST",
+          data: {'accion' : 1},
+          dataType: "json",
+          success: function (respuesta) {
+            console.log("respuesta",respuesta);
+          }
+        });
 
         table = $("#tbl_productos").DataTable({
+          dom:'Bfrtip',
+          buttons:[
+            {
+              text: 'Agregar Producto',
+              className: 'addNewRecord',
+              action: function(e,dt,node,config){
+                    //aqui se llama el modal para agragar producto
+                    alert('Agregar Producto')
+              }
+            },
+            'excel', 'print', 'pageLength'
+          ],
+          pageLength:[5,10,25,50,100],
+          pageLength:10,
+
+          ajax:{
+            url: "ajax/product.ajax.php",
+            dataSrc: '',
+            type: "POST",
+            data: {'accion' : 1},
+          },
+          columnDefs:[
+            {
+            targets: 0,
+            orderable:false,
+            className: 'control'
+            },
+            {
+              targets: 1,
+              visible:false
+            },
+            {
+              targets: 8,
+              orderable:false,
+              render: function(datqa, type, full, meta){
+                return "<center>" + 
+                "<span class= 'btnEditarProducto text-success px-1' style= 'cursor:pointer;'>" +
+                "<i class = 'fas fa-pencil-alt fs-5'></i>"+
+                "<span class= 'btnEliminarProducto text-danger px-3' style= 'cursor:pointer;'>" +
+                "<i class = 'fas fa-trash fs-5'></i>"+
+                "</center>"
+              }
+            }
+        
+        ],
           language:{
             url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
 
