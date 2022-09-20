@@ -65,6 +65,128 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content -->
+
+    <!-- Modal para registrar nuevo producto -->
+    <div class="modal fade" id="mdlGestionarProducto" role="dialog">
+      <div class="modal-dialog modal-md">
+        <!-- Contenido Modal -->
+        <div class="modal-content">
+          <!-- Cabecera Modal -->
+          <div class="modal-header bg-gray py-1 align-items-center ">
+            <h5 class="modal-title" >Agregar Producto</h5>
+            <button type="button" class="btn btn-outline-primary text-white border-0 fs-5" data-bs-dismiss="modal" id="btnCerrarModal">
+              <i class="far fa-times-circle"></i>
+            </button>
+          </div>
+          <!-- Cuerpo Modal -->
+          <div class="modal-body">
+
+            <!-- fila Modal -->
+            <div class="row">
+
+              <!-- Columna Codigo de Barras -->
+              <div class="col-lg-6">
+                <div class="form-group mb-2">
+                <label class="" for="iptCodigoReg"><i class="fas fa-barcode fs-6"></i>
+                <span class="small">Codigo de Producto</span><span class="text-danger">*</span>
+                 </label> 
+                 <input type="text" class="form-control form-control-sm" id="iptCodigoReg"
+                 name="iptCodigoReg" placeholder="codigo de Producto" required>
+                 <span id="validate_codigo" class="text-danger small fst-italic"
+                 style="display:none">Debe ingresar el Codigo de Barras</span>
+                </div>
+              </div>
+
+              <!-- Columna Categoria de Producto -->
+              <div class="col-lg-6">
+                <div class="form-group mb-2">
+                <label class="" for="selCategoriaReg"><i class="fas fa-dumpster fs-6"></i>
+                <span class="small">Categoria</span><span class="text-danger">*</span>
+                 </label> 
+                  <select class="form-select form-select-sm" arial-label=".form-select-sm example" 
+                  id="selCategoriaReg">
+                  </select>
+                 <span id="validate_categoria" class="text-danger small fst-italic"
+                 style="display:none">Debe Elegir una categoria</span>
+                </div>
+              </div>
+
+              <!-- Columna Descripcion de Producto -->
+              <div class="col-12">
+                <div class="form-group mb-2">
+                <label class="" for="iptDescripcionReg"><i class="fas fa-file-signature fs-6"></i>
+                <span class="small">Descripcion</span><span class="text-danger">*</span>
+                 </label> 
+                  <input type="text" class="form-control form-control-sm"  
+                  id="iptDescripcionReg" placeholder="Descripcion">
+                 <span id="validate_descripcion" class="text-danger small fst-italic"
+                 style="display:none">Debe Ingresar una descripcion del Producto</span>
+                </div>
+              </div>
+
+               <!-- Columna de Costo de Producto -->
+               <div class="col-lg-4">
+                <div class="form-group mb-2">
+                <label class="" for="iptPrecioCompraReg"><i class="fas fa-dollar-sign fs-6"></i>
+                <span class="small">Costo</span><span class="text-danger">*</span>
+                 </label> 
+                  <input type="number" min="0" class="form-control form-control-sm"  
+                  id="iptPrecioCompraReg" placeholder="Costo de Producto">
+                 <span id="validate_precio_compra" class="text-danger small fst-italic"
+                 style="display:none">Debe Ingresar el costo del Producto</span>
+                </div>
+              </div>
+               <!-- Columna de Precio de Producto -->
+               <div class="col-lg-4">
+                <div class="form-group mb-2">
+                <label class="" for="iptPrecioVentaReg"><i class="fas fa-dollar-sign fs-6"></i>
+                <span class="small">Precio</span><span class="text-danger">*</span>
+                 </label> 
+                  <input type="number" min="0" class="form-control form-control-sm"  
+                  id="iptPrecioVentaReg" placeholder="Precio de Producto">
+                 <span id="validate_precio_venta" class="text-danger small fst-italic"
+                 style="display:none">Debe Ingresar el Precio del Producto</span>
+                </div>
+              </div>
+               <!-- Columna de Stock de Producto -->
+               <div class="col-lg-6">
+                <div class="form-group mb-2">
+                <label class="" for="iptStockReg"><i class="fas fa-dollar-sign fs-6"></i>
+                <span class="small">Stock</span><span class="text-danger">*</span>
+                 </label> 
+                  <input type="number" min="0" class="form-control form-control-sm"  
+                  id="iptStockReg" placeholder="Stock">
+                 <span id="validate_Stock" class="text-danger small fst-italic"
+                 style="display:none">Debe Ingresar el Stock del Producto</span>
+                </div>
+              </div>
+               <!-- Columna de Stock Minimo de Producto -->
+               <div class="col-lg-6">
+                <div class="form-group mb-2">
+                <label class="" for="iptMinimoStockReg"><i class="fas fa-dollar-sign fs-6"></i>
+                <span class="small">Stock Minimo</span><span class="text-danger">*</span>
+                 </label> 
+                  <input type="number" min="0" class="form-control form-control-sm"  
+                  id="iptMinimoStockReg" placeholder="Stock Minimo">
+                 <span id="validate_min_Stock" class="text-danger small fst-italic"
+                 style="display:none">Debe Ingresar el Stock Minimo del Producto</span>
+                </div>
+              </div>
+              <!-- Columna de Stock Minimo de Producto -->
+              <button type="button" class="btn btn-danger mt-3 mx-2" style="width: 170px;"
+              data-bs-dismiss="modal" id="btnCancelarRegistro">Cancelar</button>
+
+              <button type="button" style="width:170px;" class="btn btn-primary mt-3 mx-2"
+              id="btnGuardarProducto" onClick="formSubmitClick()">Guardar Producto</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
     <Script>
       $(document).ready(function(){
         var table;
@@ -87,7 +209,7 @@
               className: 'addNewRecord',
               action: function(e,dt,node,config){
                     //aqui se llama el modal para agragar producto
-                    alert('Agregar Producto')
+                    $("#mdlGestionarProducto").modal('show');
               }
             },
             'excel', 'print', 'pageLength'
@@ -130,5 +252,19 @@
 
           }
         });
+
+        $("#btnCancelarRegistro, #btnCerrarModal").on('click',function(){
+          $("#iptCodigoReg").val("");
+          $("#selCategoriaReg").val(0);
+          $("#iptDescripcionReg").val("");
+          $("#iptPrecioCompraReg").val("");
+          $("#iptPrecioVentaReg").val("");
+          $("#iptStockReg").val("");
+          $("#iptMinimoStockReg").val("");
+        })
+
+
+
+
       })
     </Script>
