@@ -44,5 +44,30 @@ class Product{
 
         return $stmt->fetchAll();
     }
+    static public function mdlregistrarproducto($codigo_producto, $id_categoria, $descripcion_producto, $precio_compra_producto,
+                                                    $precio_venta_producto, $stock_producto, $minimo_stock_producto){
+        try{
+                $stmt = Connection::conectar()->prepare("INSERT INTO products(name, barcode, costl, price, stock, alert, category_id)
+                                                            VALUES(:descripcion_producto, :codigo_producto, :precio_compra_producto, :precio_venta_producto, :stock_producto, :minimo_stock_producto, :id_categoria)");
+
+                $stmt->bindParam(":codigo_producto", $codigo_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":descripcion_producto", $descripcion_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":precio_compra_producto", $precio_compra_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":precio_venta_producto", $precio_venta_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":stock_producto", $stock_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":minimo_sotck_producto", $minimo_stock_producto, PDO::PARAM_STR);                                            
+                $stmt->bindParam(":id_categoria", $id_categoria, PDO::PARAM_STR);
+                
+                if($stmt->execute()){
+                    $resultado= "ok";
+                }else{
+                    $resultado = "error";
+                }
+            }catch(Exeption $e){
+                $resultado='Exepcion capturada: ' . $e->getMessage(). "\n";
+            }
+        return $resultado;
+        $stmt = null;
+    }
 
 }

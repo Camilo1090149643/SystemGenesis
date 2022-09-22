@@ -254,6 +254,14 @@
         });
 
         $("#btnCancelarRegistro, #btnCerrarModal").on('click',function(){
+          $("#validate_codigo").css("display","none");
+          $("#validate_categoria").css("display","none");
+          $("#validate_descripcion").css("display","none");
+          $("#validate_precio_compra").css("display","none");
+          $("#validate_precio_venta").css("display","none");
+          $("#validate_stock").css("display","none");
+          $("#validate_min_stock").css("display","none");
+          
           $("#iptCodigoReg").val("");
           $("#selCategoriaReg").val(0);
           $("#iptDescripcionReg").val("");
