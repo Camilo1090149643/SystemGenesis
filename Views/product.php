@@ -188,8 +188,20 @@
 
 
     <Script>
+      var accion;
+      var table;
+
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top',
+        showConfirmButton: true,
+        timer: 3000
+      });
+
       $(document).ready(function(){
-        var table;
+        
+        
+       
         document.title = 'Genesis | Inventario de Productos';
         $.ajax({
           url: "ajax/product.ajax.php",
@@ -198,6 +210,24 @@
           dataType: "json",
           success: function (respuesta) {
             console.log("respuesta",respuesta);
+          }
+        });
+
+        $.ajax({
+          url: "ajax/categories.ajax.php",
+          cache: false,
+          contentType: false,
+          processData: false,
+          dataType: 'json',
+          success: function(respuesta){
+            var options = '<option selected value ="0"> Seleccione una categoria </option>';
+
+            for (let index = 0; index < respuesta.length; index ++ ){
+              options = options + '<option value = ' + respuesta[index][0] + '>' + respuesta[index][
+                1
+              ] + '</option>';
+            }
+            $("#selCategoriaReg").html(options);
           }
         });
 
@@ -210,6 +240,7 @@
               action: function(e,dt,node,config){
                     //aqui se llama el modal para agragar producto
                     $("#mdlGestionarProducto").modal('show');
+                    accion = 2; //registrar
               }
             },
             'excel', 'print', 'pageLength'
@@ -275,4 +306,73 @@
 
 
       })
+
+      function formSubmitClick(){
+        //validar ingresos de campos o ingresos
+
+        Swal.fire({
+          title: 'Esta seguro de registrar el producto',
+          icon: 'warning',
+          showCancelButton:true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Si, deseo registrarlo !',
+          cancelButtonText: 'Cancelar',
+        }).then((result)=> {
+          if(result.isConfirmed){
+
+            var datos = new FormData();
+
+            datos.append("accion", accion);
+            datos.append("codigo_producto", $("#iptCodigoReg").val()); //codigo de producto
+            datos.append("id_categoria_producto", $("#selCategoriaReg").val()); //codigo de producto
+            datos.append("descripcion_producto", $("#iptDescripcionReg").val()); //descripcion de producto
+            datos.append("precio_compra_producto", $("#iptPrecioCompraReg").val()); //precio de compra de producto
+            datos.append("precio_venta_producto", $("#iptPrecioVentaReg").val()); //precio de venta de producto
+            datos.append("stock_producto", $("#iptStockReg").val()); //stock de producto
+            datos.append("minimo_stock_producto", $("#iptMinimoStockReg").val()); //stock Minimo de producto
+
+            
+
+            $.ajax({
+              url: "ajax/product.ajax.php",
+              method: "POST",
+              data: datos,
+              cache: false,
+              contentType: false,
+              processData: false,
+              dataType: 'json',
+              success: function(respuesta){
+                console.log("producto", respuesta);
+                if(respuesta == "ok"){
+                  Toast.fire({
+                    icon: 'success',
+                    title: 'El producto se registro correctamente'
+                  });
+                  table.ajax.reload();
+
+                  $("#mdlGestionarProducto").modal('hide');
+
+                  $("#iptCodigoReg").val("");
+                  $("#selCategoriaReg").val(0);
+                  $("#iptDescripcionReg").val("");
+                  $("#iptPrecioCompraReg").val("");
+                  $("#iptPrecioVentaReg").val("");
+                  $("#iptStockReg").val("");
+                  $("#iptMinimoStockReg").val("");
+               
+
+                }else{
+                  Toast.fire({
+                    icon: 'error',
+                    title: 'El producto no se pudo regstrar'
+                  });
+                }
+              }
+            });
+
+          }
+        }) 
+
+      }
     </Script>

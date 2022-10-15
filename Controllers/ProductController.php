@@ -13,7 +13,7 @@ class ProductController{
     }
     static public function ctrRegistrarProducto($codigo_producto, $id_categoria, $descripcion_producto, $precio_compra_producto,
     $precio_venta_producto, $stock_producto, $minimo_stock_producto){
-        $registroProducto=Product::mdlRegistratProducto($codigo_producto, $id_categoria, $descripcion_producto, $precio_compra_producto,
+        $registroProducto=Product::mdlRegistrarProducto($codigo_producto, $id_categoria, $descripcion_producto, $precio_compra_producto,
     $precio_venta_producto, $stock_producto, $minimo_stock_producto);
     return $registroProducto;
     }
